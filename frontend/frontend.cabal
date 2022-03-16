@@ -1,0 +1,65 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.34.5.
+--
+-- see: https://github.com/sol/hpack
+
+name:           frontend
+version:        0.0.0.1
+description:    Please see the README on GitHub at <https://ibizaman/hs-reflex-tvdb/frontend>
+homepage:       https://github.com/ibizaman/hs-reflex-tvdb#readme
+bug-reports:    https://github.com/ibizaman/hs-reflex-tvdb/issues
+author:         Pierre Penninckx
+maintainer:     Pierre Penninckx
+copyright:      2021 Pierre Penninckx
+license:        BSD3
+build-type:     Simple
+
+source-repository head
+  type: git
+  location: https://github.com/ibizaman/hs-reflex-tvdb
+  subdir: frontend
+
+library
+  exposed-modules:
+      Map
+  other-modules:
+      Paths_frontend
+  hs-source-dirs:
+      src
+  default-extensions:
+      OverloadedStrings
+  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -fwarn-incomplete-patterns -fwarn-incomplete-record-updates -fwarn-incomplete-uni-patterns -fwarn-missing-signatures -fwarn-name-shadowing -fwarn-overlapping-patterns -fwarn-tabs -fwarn-unused-imports
+  build-depends:
+      base >=4.7 && <5
+    , common
+    , containers ==0.6.*
+    , reflex ==0.8.*
+    , reflex-dom ==0.6.*
+    , servant >=0.16.2 && <1
+    , servant-reflex >=0.3.6 && <0.5
+    , servant-server >=0.16.2 && <1
+    , text ==1.2.*
+  default-language: Haskell2010
+
+executable frontend-exe
+  main-is: main.hs
+  other-modules:
+      Paths_frontend
+  hs-source-dirs:
+      app
+  default-extensions:
+      OverloadedStrings
+  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -fwarn-incomplete-patterns -fwarn-incomplete-record-updates -fwarn-incomplete-uni-patterns -fwarn-missing-signatures -fwarn-name-shadowing -fwarn-overlapping-patterns -fwarn-tabs -fwarn-unused-imports -rtsopts -threaded -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , common
+    , containers ==0.6.*
+    , frontend
+    , reflex ==0.8.*
+    , reflex-dom ==0.6.*
+    , servant >=0.16.2 && <1
+    , servant-reflex >=0.3.6 && <0.5
+    , servant-server >=0.16.2 && <1
+    , text ==1.2.*
+  default-language: Haskell2010

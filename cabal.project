@@ -1,0 +1,46 @@
+packages:
+    common/*.cabal
+    backend/*.cabal
+    frontend/*.cabal
+
+tests: true
+
+allow-newer:
+  witherable:monoidal-containers,
+  monoidal-containers:witherable,
+  reflex:witherable,
+  network-uri-json-0.4.0.0:base
+
+-- Get the sha256 with:
+-- nix-shell -p nix-prefetch-git --command "nix-prefetch-git https://github.com/bgamari/monoidal-containers f450908f505ec5b0cf3375c58b2feaffae14395e"
+-- The sha256 must begin with a comment.
+
+-- servant-reflex 0.4.0, needed to be compatible with base
+source-repository-package
+  type: git
+  location: https://github.com/imalsogreg/servant-reflex.git
+  tag: a6f859e52857e0eda753cf113fabfff61f06da6a
+  --sha256: 0j36sl7l553iy1vpwy6263xdpj3m2n2rkkkdcsxpkr48p328lac4
+
+-- servant-auth 0.3.2.0, < 4 needed by servant-reflex
+source-repository-package
+  type: git
+  location: https://github.com/haskell-servant/servant-auth.git
+  tag: 02b8ca06fa9d9b5cc51377dd270865c71d97f629
+  subdir: servant-auth
+  --sha256: 02fm8mki1a9nrfjkh62i1v1dq0frvyc88rarsksqkwgrk6vjwqb2
+
+-- monoidal-containers 0.6.1.1, 0.6.0.1 fails compilation
+-- This requires the allow-newer
+source-repository-package
+  type: git
+  location: https://github.com/bgamari/monoidal-containers.git
+  tag: b0a4b5121f2ce830f9c6da4e7a2ff4c0480cd42b
+  --sha256: 0z85z8q3sa0609cvy6r3cavy01zhfg3acmiak74b4y8wpklr0xw0
+
+-- webkit2gtk3-javascriptcore 0.14.4.2, 0.14.4.3 fails compilation
+source-repository-package
+  type: git
+  location: https://github.com/gtk2hs/webkit-javascriptcore.git
+  tag: 099f587d87ffeaaa8d734a9c9472211b834ad050
+  --sha256: 1mxmwn39hp8icvh42cyyxzi3w9ar7xf7nrk25rzw3zah7alkpqf5

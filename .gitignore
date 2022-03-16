@@ -1,0 +1,10 @@
+# tmp dirs
+*-result
+dist-*
+hoogle
+
+# editor tmp files
+*~
+*#
+
+sqlite.db*

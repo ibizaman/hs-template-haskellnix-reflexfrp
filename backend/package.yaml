@@ -1,0 +1,78 @@
+name: backend
+version: 0.0.0.1
+github: "ibizaman/hs-reflex-tvdb/backend"
+license: BSD3
+author: "Pierre Penninckx"
+maintainer: "Pierre Penninckx"
+copyright: "2021 Pierre Penninckx"
+
+description: Please see the README on GitHub at <https://ibizaman/hs-reflex-tvdb/backend>
+
+dependencies:
+    - base >= 4.7 && < 5
+    - bytestring
+    - common
+    - monad-logger >= 0.3 && < 0.4
+    - mtl >= 2.2 && < 3
+    - http-client
+    - http-client-tls
+    - persistent >= 2.9 && < 3
+    - persistent-sqlite >= 2.9 && < 3
+    - resource-pool == 0.2.3.2
+    - resourcet >= 1.2 && < 2
+    - safe-exceptions >= 0.1.7 && < 1.8
+    - servant >= 0.16.2 && < 1
+    - servant-options >= 0.1 && < 0.2
+    - servant-client >= 0.16.2 && < 1
+    - servant-server >= 0.16.2 && < 1
+    - text >= 1.2 && < 1.3
+    - unliftio >= 0.2.12 && < 0.3
+    - wai-cors >= 0.2.7 && < 3
+    - warp >= 3.2 && < 4
+
+default-extensions:
+    - OverloadedStrings
+
+library:
+    source-dirs: src
+    dependencies: {}
+
+executables:
+    backend-exe:
+        main: main.hs
+        source-dirs: app
+        dependencies:
+            - backend
+        ghc-options:
+            - -rtsopts
+            - -threaded
+            - -with-rtsopts=-N
+
+tests:
+    backend-test:
+        main: Spec.hs
+        source-dirs: test
+        dependencies:
+            - backend
+            - hspec >= 2.7 && < 3
+            - hspec-core >= 2.7 && < 3
+            - hspec-discover >= 2.7 && < 3
+        ghc-options:
+            - -rtsopts
+            - -threaded
+            - -with-rtsopts=-N
+
+ghc-options:
+    - -Wall
+    - -Wcompat
+    - -Wincomplete-record-updates
+    - -Wincomplete-uni-patterns
+    - -Wredundant-constraints
+    - -fwarn-incomplete-patterns
+    - -fwarn-incomplete-record-updates
+    - -fwarn-incomplete-uni-patterns
+    - -fwarn-missing-signatures
+    - -fwarn-name-shadowing
+    - -fwarn-overlapping-patterns
+    - -fwarn-tabs
+    - -fwarn-unused-imports

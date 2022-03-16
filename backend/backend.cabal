@@ -1,0 +1,125 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.34.5.
+--
+-- see: https://github.com/sol/hpack
+
+name:           backend
+version:        0.0.0.1
+description:    Please see the README on GitHub at <https://ibizaman/hs-reflex-tvdb/backend>
+homepage:       https://github.com/ibizaman/hs-reflex-tvdb#readme
+bug-reports:    https://github.com/ibizaman/hs-reflex-tvdb/issues
+author:         Pierre Penninckx
+maintainer:     Pierre Penninckx
+copyright:      2021 Pierre Penninckx
+license:        BSD3
+build-type:     Simple
+
+source-repository head
+  type: git
+  location: https://github.com/ibizaman/hs-reflex-tvdb
+  subdir: backend
+
+library
+  exposed-modules:
+      Utils
+  other-modules:
+      Paths_backend
+  hs-source-dirs:
+      src
+  default-extensions:
+      OverloadedStrings
+  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -fwarn-incomplete-patterns -fwarn-incomplete-record-updates -fwarn-incomplete-uni-patterns -fwarn-missing-signatures -fwarn-name-shadowing -fwarn-overlapping-patterns -fwarn-tabs -fwarn-unused-imports
+  build-depends:
+      base >=4.7 && <5
+    , bytestring
+    , common
+    , http-client
+    , http-client-tls
+    , monad-logger ==0.3.*
+    , mtl >=2.2 && <3
+    , persistent >=2.9 && <3
+    , persistent-sqlite >=2.9 && <3
+    , resource-pool ==0.2.3.2
+    , resourcet >=1.2 && <2
+    , safe-exceptions >=0.1.7 && <1.8
+    , servant >=0.16.2 && <1
+    , servant-client >=0.16.2 && <1
+    , servant-options ==0.1.*
+    , servant-server >=0.16.2 && <1
+    , text ==1.2.*
+    , unliftio >=0.2.12 && <0.3
+    , wai-cors >=0.2.7 && <3
+    , warp >=3.2 && <4
+  default-language: Haskell2010
+
+executable backend-exe
+  main-is: main.hs
+  other-modules:
+      Paths_backend
+  hs-source-dirs:
+      app
+  default-extensions:
+      OverloadedStrings
+  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -fwarn-incomplete-patterns -fwarn-incomplete-record-updates -fwarn-incomplete-uni-patterns -fwarn-missing-signatures -fwarn-name-shadowing -fwarn-overlapping-patterns -fwarn-tabs -fwarn-unused-imports -rtsopts -threaded -with-rtsopts=-N
+  build-depends:
+      backend
+    , base >=4.7 && <5
+    , bytestring
+    , common
+    , http-client
+    , http-client-tls
+    , monad-logger ==0.3.*
+    , mtl >=2.2 && <3
+    , persistent >=2.9 && <3
+    , persistent-sqlite >=2.9 && <3
+    , resource-pool ==0.2.3.2
+    , resourcet >=1.2 && <2
+    , safe-exceptions >=0.1.7 && <1.8
+    , servant >=0.16.2 && <1
+    , servant-client >=0.16.2 && <1
+    , servant-options ==0.1.*
+    , servant-server >=0.16.2 && <1
+    , text ==1.2.*
+    , unliftio >=0.2.12 && <0.3
+    , wai-cors >=0.2.7 && <3
+    , warp >=3.2 && <4
+  default-language: Haskell2010
+
+test-suite backend-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      UtilsSpec
+      Paths_backend
+  hs-source-dirs:
+      test
+  default-extensions:
+      OverloadedStrings
+  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -fwarn-incomplete-patterns -fwarn-incomplete-record-updates -fwarn-incomplete-uni-patterns -fwarn-missing-signatures -fwarn-name-shadowing -fwarn-overlapping-patterns -fwarn-tabs -fwarn-unused-imports -rtsopts -threaded -with-rtsopts=-N
+  build-depends:
+      backend
+    , base >=4.7 && <5
+    , bytestring
+    , common
+    , hspec >=2.7 && <3
+    , hspec-core >=2.7 && <3
+    , hspec-discover >=2.7 && <3
+    , http-client
+    , http-client-tls
+    , monad-logger ==0.3.*
+    , mtl >=2.2 && <3
+    , persistent >=2.9 && <3
+    , persistent-sqlite >=2.9 && <3
+    , resource-pool ==0.2.3.2
+    , resourcet >=1.2 && <2
+    , safe-exceptions >=0.1.7 && <1.8
+    , servant >=0.16.2 && <1
+    , servant-client >=0.16.2 && <1
+    , servant-options ==0.1.*
+    , servant-server >=0.16.2 && <1
+    , text ==1.2.*
+    , unliftio >=0.2.12 && <0.3
+    , wai-cors >=0.2.7 && <3
+    , warp >=3.2 && <4
+  default-language: Haskell2010
