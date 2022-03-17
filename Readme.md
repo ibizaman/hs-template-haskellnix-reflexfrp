@@ -1,70 +1,55 @@
 # Template Project For haskell.nix and reflexfrp
 
-## Build
+This template project acts as a reference for anyone wanting to create
+an app that:
 
-### Prerequesites
-
-This template project assumes you have ghcjs in your path. You don't
-need ghc. I'm working on this project providing ghcjs directly but
-it's not there yet.
-
-### Environment
-
-All the commands need to run inside a nix shell environment, so run
-the following command and issue all commands inside:
+- Has a frontend communicating with a backend.
+- Is able to cross-compile the frontend to a GTK application or a
+  javascript application. (iOS and Android coming up).
+- Uses Haskell for the frontend and the backend.
+- Uses Warp to serve HTTP requests on the backend.
+- Shares an API specification between the backend and the frontend
+  using servant.
+- Uses functional reactive programming on the frontend.
+- Where the backend communicates with a Postgresql database.
+- Uses nix to provide all the needed tools and packages.
+  
+The application itself is a very crude TODO list application which
+stores the list inside a Postgresql database. To get a desktop
+application, run:
 
 ```bash
 nix-shell
+cabal run backend-exe &
+cabal run frontend-exe
 ```
 
-### Backend
+![Application with a few TODO items](docs/pics/MainApp.png)
 
-You need to build the `backend` with GHC.
+To quit the app, issue a `Ctrl-C` then `fg` then `Ctrl-C`.
 
-```bash
-cabal build --cabal-file=cabal.project --ghc backend
-```
-
-You can leave out the `--cabal-file` and `--ghc` arguments as those
-are the default.
-
-### Frontend
-
-You can either build the frontend as a desktop application or as a
-javascript app.
-
-For a desktop application, build the frontend with GHC:
-
-```bash
-cabal build --cabal-file=cabal.project --ghc frontend
-```
-
-For a javascript application, build the frontend with GHCJS:
+To generate javascript code for the frontend, run:
 
 ```bash
 cabal build --cabal-file=cabal.ghcjs.project --ghcjs frontend
 ```
 
-Although the `cabal.ghcjs.project` defines the `with-compiler: ghcjs`
-field, you still need to give the `--ghcjs` argument.
+## Building instructions
 
-## Run
+For more info about how to build the app, head to the
+[docs/HowTos/BuildTestRun.md](docs/HowTos/BuildTestRun.md) how-to.
 
-Whatever the frontend, the backend is run the same way:
+## More Info
 
-```bash
-cabal run --cabal-file=cabal.project --ghc backend-exe
-```
+Check all the documentation at [docs/HowTos](docs/HowTos).
 
-For a desktop app, run the frontend like this:
+## WIP
 
-```bash
-cabal run --cabal-file=cabal.project --ghc frontend-exe
-```
-
-## Tests
-
-```bash
-cabal run --cabal-file=cabal.project --ghc backend-test
-cabal run --cabal-file=cabal.project --ghc backend-common
-```
+- Accept arguments for backend.
+- Accept config file for backend.
+- Allow frontend to setup backend endpoint through UI.
+- Serve the javascript frontend from the backend.
+- Nix provides ghcjs.
+- Cross-compile frontend to iOS.
+- Cross-compile frontend to Android.
+- ?
