@@ -37,6 +37,7 @@ cabal build --cabal-file=cabal.ghcjs.project --ghcjs frontend
 ## Links
 
 - [Building instructions](docs/HowTos/BuildTestRun.md)
+- [IDE integration](docs/HowTos/IDEIntegration.md)
 - [FAQ](docs/Discussions/FAQ.md)
 
 Check all the documentation at [docs/](docs/).
