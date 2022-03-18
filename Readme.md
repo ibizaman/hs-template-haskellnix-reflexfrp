@@ -34,14 +34,12 @@ To generate javascript code for the frontend, run:
 cabal build --cabal-file=cabal.ghcjs.project --ghcjs frontend
 ```
 
-## Building instructions
+## Links
 
-For more info about how to build the app, head to the
-[docs/HowTos/BuildTestRun.md](docs/HowTos/BuildTestRun.md) how-to.
+- [Building instructions](docs/HowTos/BuildTestRun.md)
+- [FAQ](docs/Discussions/FAQ.md)
 
-## More Info
-
-Check all the documentation at [docs/HowTos](docs/HowTos).
+Check all the documentation at [docs/](docs/).
 
 ## WIP
 
