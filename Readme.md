@@ -45,6 +45,7 @@ Check all the documentation at [docs/](docs/).
 ## WIP
 
 - [x] Accept arguments for backend.
+- [ ] Have github actions to build and test.
 - [ ] Accept config file for backend.
 - [ ] Allow frontend to setup backend endpoint through UI.
 - [ ] Serve the javascript frontend from the backend.
