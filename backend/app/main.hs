@@ -4,6 +4,8 @@
 {-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeOperators #-}
+{-# LANGUAGE DeriveDataTypeable #-}
+{-# LANGUAGE RecordWildCards #-}
 
 module Main
   ( main,
@@ -16,7 +18,7 @@ import Control.Monad.IO.Class
   ( MonadIO,
     liftIO,
   )
-import Control.Monad.Logger (runStderrLoggingT)
+import Control.Monad.Logger (runStderrLoggingT, LoggingT (LoggingT))
 import Control.Monad.Reader
   ( MonadReader,
     ReaderT,
@@ -44,22 +46,55 @@ import System.IO
 import Types (migrateAll)
 import UnliftIO (MonadUnliftIO)
 import UnliftIO.Resource (runResourceT)
+import Data.Data (Data, Typeable)
+import qualified System.Console.CmdArgs as A
+import System.Console.CmdArgs ((&=))
+import Data.String (IsString(fromString))
+import Control.Monad (when)
+
+data Args = Args
+    { listen_port :: Int,
+      listen_address :: String
+    } deriving (Show, Data, Typeable)
+
+getArgs :: IO (Args, A.Verbosity)
+getArgs = do
+  a <- A.cmdArgs $ Args
+       { listen_port = 8080 &= A.help "Port to bind to (default 8080)" &= A.typ "NUMBER"
+       , listen_address = "127.0.0.1" &= A.help "Interface to bind to (default 127.0.0.1)" &= A.typ "INTERFACE"
+       }
+       &= A.verbosity
+       &= A.program "Backend"
+  v <- A.getVerbosity
+  return (a, v)
+
 
 main :: IO ()
 main = do
   hSetBuffering stdout LineBuffering
-  putStrLn "Starting on port 8080"
-  pool <- runResourceT $ runStderrLoggingT $ PSqlite.createSqlitePool "sqlite.db" 5
+  (args@Args{..}, verbosity) <- getArgs
+
+  when (verbosity /= A.Quiet) $
+    putStrLn $ "Listening on " <> listen_address <> ":" <> show listen_port
+  pool <- runResourceT $ runLogging (verbosity == A.Loud) $ PSqlite.createSqlitePool "sqlite.db" 5
   runDB pool $ PSqlite.runMigration migrateAll
-  Warp.runSettings settings $ app Options {dbPool = pool}
+  Warp.runSettings (settings args (verbosity == A.Loud)) $ app Options {dbPool = pool}
   where
-    settings =
+    settings Args{..} verbose =
       Warp.defaultSettings
-        & Warp.setPort 8080
-        & Warp.setHost "!4"
-        & Warp.setOnOpen (\sockaddr -> print sockaddr >> return True)
+        & Warp.setPort listen_port
+        & Warp.setHost (fromString listen_address)
+        & Warp.setOnOpen
+          ( if not verbose
+            then \_ -> return True
+            else \sockaddr -> do
+              putStrLn $ "New connection from " <> show sockaddr
+              return True
+          )
         & Warp.setLogger
-          ( \request status fileSize ->
+          ( if not verbose
+            then \_ _ _ -> return ()
+            else \request status fileSize ->
               putStrLn $
                 ">> request: "
                   <> show request
@@ -68,6 +103,10 @@ main = do
                   <> "\n>> file size: "
                   <> show fileSize
           )
+
+    runLogging :: MonadIO m => Bool -> LoggingT m a -> m a
+    runLogging False = \(LoggingT f) -> f $ \_ _ _ _ -> return ()
+    runLogging True = runStderrLoggingT
 
 newtype App a = App
   { runApp :: ReaderT Options IO a

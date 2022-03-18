@@ -12,6 +12,7 @@ dependencies:
     - base >= 4.7 && < 5
     - bytestring
     - common
+    - cmdargs >= 0.10 && <1
     - monad-logger >= 0.3 && < 0.4
     - mtl >= 2.2 && < 3
     - http-client

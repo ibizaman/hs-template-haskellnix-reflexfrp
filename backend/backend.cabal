@@ -33,6 +33,7 @@ library
   build-depends:
       base >=4.7 && <5
     , bytestring
+    , cmdargs >=0.10 && <1
     , common
     , http-client
     , http-client-tls
@@ -66,6 +67,7 @@ executable backend-exe
       backend
     , base >=4.7 && <5
     , bytestring
+    , cmdargs >=0.10 && <1
     , common
     , http-client
     , http-client-tls
@@ -101,6 +103,7 @@ test-suite backend-test
       backend
     , base >=4.7 && <5
     , bytestring
+    , cmdargs >=0.10 && <1
     , common
     , hspec >=2.7 && <3
     , hspec-core >=2.7 && <3

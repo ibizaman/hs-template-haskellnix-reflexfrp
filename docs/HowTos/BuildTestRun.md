@@ -60,6 +60,14 @@ Whatever the frontend, the backend is run the same way:
 cabal run --cabal-file=cabal.project --ghc backend-exe
 ```
 
+Giving arguments to the backend is done by separating them with a
+double dash:
+
+```bash
+cabal run --cabal-file=cabal.project --ghc backend-exe -- --help
+cabal run --cabal-file=cabal.project --ghc backend-exe -- --listen-port=8000 --listen-address="127.0.0.1"
+```
+
 For a desktop app, run the frontend like this:
 
 ```bash
