@@ -49,6 +49,7 @@ Check all the documentation at [docs/](docs/).
 - [ ] Accept config file for backend.
 - [ ] Allow frontend to setup backend endpoint through UI.
 - [ ] Serve the javascript frontend from the backend.
+- [ ] Add CSS for the frontend.
 - [ ] Nix provides ghcjs.
 - [ ] Cross-compile frontend to iOS.
 - [ ] Cross-compile frontend to Android.
