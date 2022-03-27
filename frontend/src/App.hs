@@ -1,31 +1,27 @@
-{-# LANGUAGE FlexibleContexts          #-}
 {-# LANGUAGE KindSignatures            #-}
-{-# LANGUAGE NamedFieldPuns            #-}
-{-# LANGUAGE NoMonomorphismRestriction #-}
+{-# LANGUAGE FlexibleContexts          #-}
 {-# LANGUAGE RankNTypes                #-}
+{-# LANGUAGE NamedFieldPuns            #-}
+{-# LANGUAGE ScopedTypeVariables       #-}
 {-# LANGUAGE RecordWildCards           #-}
 {-# LANGUAGE RecursiveDo               #-}
-{-# LANGUAGE ScopedTypeVariables       #-}
 
-module Main where
+module App (run) where
 
 import           Api               (API)
 import           Control.Monad.Fix (MonadFix)
 import           Data.Kind         (Type)
 import           Data.Map          (Map)
+import qualified Reflex.Dom        as Dom
 import qualified Data.Map          as Map
 import           Data.Proxy        (Proxy (Proxy))
 import qualified Data.Set          as Set
 import           Data.Text         (Text, pack, unpack)
 import           Map               (dynamicMap)
 import qualified Reflex            as R
-import qualified Reflex.Dom        as Dom
 import           Servant.API       ((:<|>) (..))
 import qualified Servant.Reflex    as SR
 import           Types             (Entity, Item (..), ItemId, itemListToMap)
-
-main :: IO ()
-main = Dom.mainWidget run
 
 run ::
   ( Dom.DomBuilder t m,
@@ -38,6 +34,10 @@ run ::
 run = do
   settings <- settingsTab $ SR.BasePath "http://127.0.0.1:8080"
   mainTab settings
+  -- Dom.tabDisplay "tabs" "tab" $ Map.fromList
+  --       [ ("main", ("main", mainTab settings))
+  --       , ("settings", ("settings", void settingsTab))
+  --       ]
 
 settingsTab ::
   ( Dom.DomBuilder t m
@@ -65,7 +65,10 @@ data APIRecord t m = APIRecord
       m (Dom.Event t (SR.ReqResult ItemId ()))
   }
 
-buildAPI :: Dom.Dynamic t SR.BaseUrl -> APIRecord t m
+buildAPI ::
+  ( SR.SupportsServantReflex t m
+  ) =>
+  Dom.Dynamic t SR.BaseUrl -> APIRecord t m
 buildAPI url =
   let
     apiList :<|> apiAdd :<|> apiRemove =
@@ -111,7 +114,7 @@ listWidget APIRecord{..} newEvent = do
   rec butn <- Dom.button "Refresh"
       onload <- R.getPostBuild
       replaceEvent :: (R.Event t (Map ItemId Item)) <-
-        fmap itemListToMap <$> R.fmapMaybe SR.reqSuccess <$> apiList (R.leftmost [onload, butn])
+        fmap itemListToMap . R.fmapMaybe SR.reqSuccess <$> apiList (R.leftmost [onload, butn])
       itemMap :: R.Dynamic t (Map.Map ItemId Item) <-
         dynamicMap Map.empty replaceEvent newEvent deleteEvent
       deleteEvent' :: R.Dynamic t (Map.Map ItemId (R.Event t ItemId)) <-
@@ -141,8 +144,9 @@ addWidget ::
 addWidget APIRecord{apiAdd} = Dom.el "div" $ do
   uName <- fmap (Item . unpack) . Dom.value <$> Dom.inputElement Dom.def
   butn <- Dom.button "Add Item"
-  fmap (uncurry Map.singleton) <$> R.fmapMaybe success <$> apiAdd (fmap Right uName) (R.tagPromptlyDyn uName butn)
+  fmap (uncurry Map.singleton) . R.fmapMaybe success <$> apiAdd (fmap Right uName) (R.tagPromptlyDyn uName butn)
 
 success :: SR.ReqResult a k -> Maybe (k, a)
 success (SR.ResponseSuccess v tag _) = Just (tag, v)
 success _                            = Nothing
+
