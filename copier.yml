@@ -1,0 +1,22 @@
+# questions
+
+project_name:
+  type: str
+  help: What is the project name?
+
+project_shortname:
+  type: str
+  help: What is the project short name?
+  default: "[[ project_name ]]"
+
+project_owner:
+  type: str
+  help: What is your github user name?
+
+full_name:
+  type: str
+  help: What is your full name?
+
+copyright_year:
+  type: str
+  help: What is the current year?

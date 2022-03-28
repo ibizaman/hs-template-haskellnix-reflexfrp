@@ -38,6 +38,21 @@ cabal build --cabal-file=cabal.ghcjs.project --ghcjs frontend-externalcss
 
 Then open the [`main.html`](main.html) file.
 
+## Use the template
+
+This template uses copier, see the [FAQ](docs/Discussions/FAQ.md) for
+why.
+
+```
+copier gh:ibizaman/hs-template-haskellnix-frp myproject
+```
+
+Later, to update your project based on new stuff in this template:
+
+```
+cd myproject && copier update
+```
+
 ## Links
 
 - [Building instructions](docs/HowTos/BuildTestRun.md)
@@ -48,6 +63,7 @@ Check all the documentation at [docs/](docs/).
 
 ## WIP
 
+- [x] Uses a template renderer to create new projects.
 - [x] Accept arguments for backend.
 - [ ] Have github actions to build and test.
 - [ ] Accept config file for backend.

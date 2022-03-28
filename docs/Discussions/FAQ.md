@@ -41,6 +41,16 @@ goes.
 I'm using NixOS/nixpkgs so I can only offer help if you use that. I
 simply installed the `pkgs.haskell.compiler.ghcjs` package.
 
-# What are the next steps here?
+# Why do you use copier to render the project template?
+
+Because it allows you get new updates from the template! See
+https://copier.readthedocs.io/en/stable/updating/
+
+# How do you install copier on nix?
+
+I installed `pipx` then did `pipx install copier`. This installs the
+binary at `~/.local/bin/copier`.
+
+# What's on your TODO list?
 
 See the [Readme.md](../../Readme.md#wip).
